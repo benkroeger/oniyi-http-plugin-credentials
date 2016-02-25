@@ -1,0 +1,48 @@
+{
+  "name": "oniyi-http-plugin-credentials",
+  "version": "0.0.1",
+  "description": "A plugin for oniyi-http-client for automatic attachment of user credentials",
+  "homepage": "",
+  "author": {
+    "name": "Benjamin Kroeger",
+    "email": "benjamin.kroeger@gmail.com",
+    "url": ""
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "keywords": [
+    "loopback",
+    "passport",
+    "request",
+    "oauth",
+    "credentials",
+    "refresh",
+    "oniyi",
+    "http-client"
+  ],
+  "dependencies": {
+    "lodash": "4.5.1",
+    "oniyi-logger": "0.3.1",
+    "passport": "0.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-oniyi": "^1.1.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^1.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-nsp": "^2.3.0",
+    "gulp-coveralls": "^0.1.4"
+  },
+  "repository": "benkroeger/oniyi-http-plugin-credentials",
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "MIT"
+}
