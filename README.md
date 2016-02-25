@@ -30,13 +30,13 @@ httpClient.use(plugin);
 The `oniyi-http-plugin-credentials` module exports a factory function that takes a single options argument.
 
 available options are: 
-- providerName: undefined (string, required) - name of the passport-strategy to be used. *Note:* passport-strategy **must** be registered first
-- removeUserProp: true (boolean, optional) - indicates if the `user` property should be removed from the request options
-- areCredentialsExpired: (function, optional) - async function that checks if credentials are expired. Must take two arguments (`credentials`, `callback(err, isExpired)`)
-- refreshCredentials: (function, optional) - async function that provides refreshed credentials. Must take three arguments (`strategy`, `currentCredentials`, `callback(err, freshCredentials)`)
-- makeAuthParams: (function, optional) - async function that provides an object literal to be merged with request parameters. Must take two arguments (`credentials`, `callback(err, authParams)`)
-- userRelationProp: /-link$/.test(pluginOptions.providerName) ? 'credentials' : 'identities', (string, optional) - name of the relation on `req.user` that we should search for user credentials
-- credentialsProp: 'credentials' (string, optional) - name of the property in the relation's document to be used for credentials
+- **providerName**: undefined (string, required) - name of the passport-strategy to be used. *Note:* passport-strategy **must** be registered first
+- **removeUserProp**: true (boolean, optional) - indicates if the `user` property should be removed from the request options
+- **areCredentialsExpired**: (function, optional) - async function that checks if credentials are expired. Must take two arguments (`credentials`, `callback(err, isExpired)`)
+- **refreshCredentials**: (function, optional) - async function that provides refreshed credentials. Must take three arguments (`strategy`, `currentCredentials`, `callback(err, freshCredentials)`)
+- **makeAuthParams**: (function, optional) - async function that provides an object literal to be merged with request parameters. Must take two arguments (`credentials`, `callback(err, authParams)`)
+- **userRelationProp**: `/-link$/.test(pluginOptions.providerName) ? 'credentials' : 'identities'`, (string, optional) - name of the relation on `req.user` that we should search for user credentials
+- **credentialsProp**: 'credentials' (string, optional) - name of the property in the relation's document to be used for credentials
 
 
 All options of type `function` have default values that can with OAuth2 strategies.
