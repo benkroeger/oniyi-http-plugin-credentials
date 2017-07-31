@@ -1,6 +1,6 @@
 {
   "name": "oniyi-http-plugin-credentials",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A plugin for oniyi-http-client for automatic attachment of user credentials",
   "homepage": "",
   "author": {
