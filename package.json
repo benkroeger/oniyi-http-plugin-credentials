@@ -23,6 +23,7 @@
     "http-client"
   ],
   "dependencies": {
+    "async": "^2.6.0",
     "debug": "^3.1.0",
     "lodash": "^4.10.0",
     "passport": "^0.3.2"
