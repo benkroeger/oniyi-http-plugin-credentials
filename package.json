@@ -2,14 +2,10 @@
   "name": "oniyi-http-plugin-credentials",
   "version": "0.2.2",
   "description": "A plugin for oniyi-http-client for automatic attachment of user credentials",
-  "homepage": "",
-  "author": {
-    "name": "Benjamin Kroeger",
-    "email": "benjamin.kroeger@gmail.com",
-    "url": ""
-  },
+  "homepage": "https://github.com/benkroeger/oniyi-http-plugin-credentials#readme",
+  "author": "Benjamin Kroeger <benjamin.kroeger@gmail.com>",
   "files": [
-    "lib"
+    "lib/"
   ],
   "main": "lib/index.js",
   "keywords": [
@@ -36,7 +32,10 @@
     "nyc": "^11.2.1",
     "prettier-eslint-cli": "^4.4.0"
   },
-  "repository": "benkroeger/oniyi-http-plugin-credentials",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benkroeger/oniyi-http-plugin-credentials.git"
+  },
   "scripts": {
     "coverage": "nyc npm test && nyc report --reporter=html",
     "format": "prettier-eslint --write \"lib/**/*.js\" \"test/**/*.js\"",
@@ -45,5 +44,11 @@
     "pretest": "npm run lint",
     "test": "ava --verbose"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benkroeger/oniyi-http-plugin-credentials/issues"
+  },
+  "directories": {
+    "test": "test"
+  }
 }
