@@ -19,10 +19,8 @@
     "http-client"
   ],
   "dependencies": {
-    "async": "^2.6.0",
     "debug": "^3.1.0",
-    "lodash": "^4.10.0",
-    "passport": "^0.3.2"
+    "lodash": "^4.10.0"
   },
   "devDependencies": {
     "ava": " ^0.23.0",
@@ -30,7 +28,8 @@
     "eslint-config-oniyi": "^5.0.2",
     "eslint-plugin-ava": "^4.2.2",
     "nyc": "^11.2.1",
-    "prettier-eslint-cli": "^4.4.0"
+    "prettier-eslint-cli": "^4.4.0",
+    "sinon": "^4.1.2"
   },
   "repository": {
     "type": "git",
