@@ -5,6 +5,13 @@
 // internal modules
 
 module.exports = {
-  oauth: {},
+  oauth: {
+    type: 'bearer',
+    payload: {
+      token: '1234',
+      sendImmediately: true,
+      authType: 'oauth',
+    },
+  },
   cookie: {},
 };
