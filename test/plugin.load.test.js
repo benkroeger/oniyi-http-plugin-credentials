@@ -15,7 +15,6 @@ test.cb('removes user prop from request params', (t) => {
 
   plugin.load({}, origParams, (err, reqParams) => {
     t.ifError(err);
-    t.log(err);
     t.false(Object.prototype.hasOwnProperty.call(reqParams, 'user'));
     t.end();
   });
