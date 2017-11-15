@@ -41,7 +41,6 @@
     "format": "prettier-eslint --write \"lib/**/*.js\" \"test/**/*.js\"",
     "prelint": "npm run format",
     "lint": "eslint --ignore-path .gitignore .",
-    "pretest": "npm run lint",
     "test": "ava --verbose"
   },
   "license": "MIT",
