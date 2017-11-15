@@ -6,5 +6,5 @@
 const providers = require('./providers');
 
 module.exports = {
-  getCredentialsForProvider: providerName => providers[providerName],
+  getCredentialsForProvider: (providerName, reqParams, cb) => cb(null, providers[providerName]),
 };
