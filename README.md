@@ -1,9 +1,7 @@
 # oniyi-http-plugin-credentials [![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > An async plugin for oniyi-http-client to resolve and attach credentials to request params
 
-This plugin is designed to work with the [third-party login component](https://docs.strongloop.com/pages/releaseview.action?pageId=3836277) of [loopback](https://docs.strongloop.com/display/public/LB/LoopBack).
-The [third-party login component](https://docs.strongloop.com/pages/releaseview.action?pageId=3836277) is heavily based on [passportjs](http://passportjs.org/).
-To make things work more broadly, I also wrote a [loopback](https://docs.strongloop.com/display/public/LB/LoopBack) extension to allow the usage of custom auth schemes [oniyi-loopback-passport-custom-schemes](https://github.com/benkroeger/oniyi-loopback-passport-custom-schemes).
+resolve endpoint specific credentials asynchronusly and inject them into request options before making the actual request to endpoint
 
 ## Installation
 
