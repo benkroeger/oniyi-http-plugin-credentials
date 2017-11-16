@@ -1,6 +1,6 @@
 {
   "name": "oniyi-http-plugin-credentials",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "A plugin for oniyi-http-client for automatic attachment of user credentials",
   "homepage": "https://github.com/benkroeger/oniyi-http-plugin-credentials#readme",
   "author": "Benjamin Kroeger <benjamin.kroeger@gmail.com>",
@@ -42,7 +42,7 @@
     "test": "ava --verbose",
     "test:watch": "npm test -- --watch",
     "coverage": "nyc npm test && nyc report --reporter=html"
-    },
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/benkroeger/oniyi-http-plugin-credentials/issues"
