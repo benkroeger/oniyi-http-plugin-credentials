@@ -11,16 +11,16 @@ test('main export is a function (plugin factory)', (t) => {
   t.true(_.isFunction(factory));
 });
 
-test('factory expects one argument', (t) => {
+test('expects one argument', (t) => {
   t.is(factory.length, 1);
 });
 
-test('factory throws when options.providerName is not a string', (t) => {
+test('throws when options.providerName is not a string', (t) => {
   const options = {};
   t.throws(() => factory(options), 'providerName must be a "String"');
 });
 
-test('factory returns object with `name` and `load` prop', (t) => {
+test('returns object with `name` and `load` prop', (t) => {
   const options = { providerName: 'test-provider' };
   const plugin = factory(options);
 

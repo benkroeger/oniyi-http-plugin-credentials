@@ -5,13 +5,18 @@
 // internal modules
 
 module.exports = {
-  oauth: {
+  falsy: () => false,
+  oauth: () => ({
     type: 'bearer',
     payload: {
       token: '1234',
       sendImmediately: true,
       authType: 'oauth',
     },
-  },
-  cookie: {},
+  }),
+  cookie: () => ({}),
+  header: reqParams => ({
+    type: 'header',
+    payload: { value: reqParams.authHeaderValue },
+  }),
 };
