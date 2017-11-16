@@ -82,3 +82,15 @@ test.cb('fails when "user.credentialsMethodName()" produces falsy "credentials" 
     t.end();
   });
 });
+
+test.cb('fails when "user.credentialsMethodName()" produces "credentials" argument with undefined "payload"', (t) => {
+  const options = { providerName: 'no-payload' };
+  const plugin = factory(options);
+  const origParams = { user };
+
+
+  plugin.load({}, origParams, (err) => {
+    t.is(err.message, 'payload must not be undefined');
+    t.end();
+  });
+});

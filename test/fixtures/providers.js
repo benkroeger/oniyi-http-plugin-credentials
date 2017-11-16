@@ -6,6 +6,9 @@
 
 module.exports = {
   falsy: () => false,
+  'no-payload': () => ({
+    payload: undefined,
+  }),
   oauth: () => ({
     type: 'bearer',
     payload: {

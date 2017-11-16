@@ -20,6 +20,17 @@ test.cb('applyCredentials fails when "data.type" is not supported', (t) => {
   });
 });
 
+test.cb('applyCredentials fails when "data.payload" is undefined', (t) => {
+  const reqParams = {};
+  const credentialsType = 'foo';
+  const data = { type: credentialsType };
+
+  applyCredentials(reqParams, data, (err) => {
+    t.is(err.message, 'payload must not be undefined');
+    t.end();
+  });
+});
+
 test.cb('applyCredentials uses "data.type" as default authType if not defined otherwise in payload', (t) => {
   const reqParams = {};
   // have to use credentialsType `header` here because all others have their own default value for `authType`
@@ -79,4 +90,118 @@ test.cb('type header uses header name from payload', (t) => {
 
     t.end();
   });
+});
+
+test('type basic defines username / password in request params', (t) => {
+  const reqParams = {};
+  const credentialsType = 'basic';
+  const username = 'foo';
+  const password = 'bar';
+  const sendImmediately = false;
+  const authType = 'foo-type';
+  const payload = {
+    authType, username, password, sendImmediately,
+  };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.deepEqual(reqParamsWithCredentials.auth, {
+    username,
+    password,
+    sendImmediately,
+  });
+  t.is(reqParamsWithCredentials.authType, authType);
+});
+
+test('type basic sets default authType "basic" and sendImmediately "true"', (t) => {
+  const reqParams = {};
+  const credentialsType = 'basic';
+  const username = 'foo';
+  const password = 'bar';
+  const payload = { username, password };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.deepEqual(reqParamsWithCredentials.auth, {
+    username,
+    password,
+    sendImmediately: true,
+  });
+  t.is(reqParamsWithCredentials.authType, 'basic');
+});
+
+test('type bearer defines auth.bearer in request params', (t) => {
+  const reqParams = {};
+  const credentialsType = 'bearer';
+  const token = 'bar';
+  const sendImmediately = false;
+  const authType = 'foo-type';
+  const payload = {
+    authType, token, sendImmediately,
+  };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.deepEqual(reqParamsWithCredentials.auth, {
+    bearer: token,
+    sendImmediately,
+  });
+  t.is(reqParamsWithCredentials.authType, authType);
+});
+
+test('type bearer sets default authType "oauth" and sendImmediately "true"', (t) => {
+  const reqParams = {};
+  const credentialsType = 'bearer';
+  const token = 'bar';
+  const payload = { token };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.deepEqual(reqParamsWithCredentials.auth, {
+    bearer: token,
+    sendImmediately: true,
+  });
+  t.is(reqParamsWithCredentials.authType, 'oauth');
+});
+
+test('type cookie defines "cookie" header in request params', (t) => {
+  const reqParams = {};
+  const credentialsType = 'cookie';
+  const cookie = 'foo=bar';
+  const authType = 'foo-type';
+  const payload = { authType, cookie };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.is(reqParamsWithCredentials.headers.cookie, cookie);
+  t.is(reqParamsWithCredentials.authType, authType);
+});
+
+test('type cookie appends payload to existing "cookie" header in request params', (t) => {
+  const reqParams = { headers: { cookie: 'bar=baz' } };
+  const credentialsType = 'cookie';
+  const cookie = 'foo=bar';
+  const payload = { cookie };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.is(reqParamsWithCredentials.headers.cookie, `${reqParams.headers.cookie};${cookie}`);
+});
+
+test('type cookie sets default authType "cookie"', (t) => {
+  const reqParams = {};
+  const credentialsType = 'cookie';
+  const cookie = 'foo=bar';
+  const payload = { cookie };
+
+  const { [credentialsType]: credentialsMethod } = applyCredentialsByType;
+
+  const reqParamsWithCredentials = credentialsMethod(reqParams, payload);
+  t.is(reqParamsWithCredentials.authType, 'cookie');
 });
