@@ -2,14 +2,10 @@
   "name": "oniyi-http-plugin-credentials",
   "version": "0.2.2",
   "description": "A plugin for oniyi-http-client for automatic attachment of user credentials",
-  "homepage": "",
-  "author": {
-    "name": "Benjamin Kroeger",
-    "email": "benjamin.kroeger@gmail.com",
-    "url": ""
-  },
+  "homepage": "https://github.com/benkroeger/oniyi-http-plugin-credentials#readme",
+  "author": "Benjamin Kroeger <benjamin.kroeger@gmail.com>",
   "files": [
-    "lib"
+    "lib/"
   ],
   "main": "lib/index.js",
   "keywords": [
@@ -23,27 +19,35 @@
     "http-client"
   ],
   "dependencies": {
-    "lodash": "^4.10.0",
-    "oniyi-logger": "^1.0.0",
-    "passport": "^0.3.2"
+    "debug": "^3.1.0",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "eslint": "^3.5.0",
-    "eslint-config-oniyi": "^4.2.0",
-    "gulp": "^3.9.1",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-eslint": "^2.0.0",
-    "gulp-exclude-gitignore": "^1.0.0",
-    "gulp-istanbul": "^0.10.4",
-    "gulp-mocha": "^2.2.0",
-    "gulp-nsp": "^2.4.0",
-    "gulp-plumber": "^1.1.0",
-    "lodash": "^4.15.0"
+    "ava": " ^0.23.0",
+    "eslint": "^4.10.0",
+    "eslint-config-oniyi": "^5.0.2",
+    "eslint-plugin-ava": "^4.2.2",
+    "nyc": "^11.2.1",
+    "prettier-eslint-cli": "^4.4.0",
+    "sinon": "^4.1.2"
   },
-  "repository": "benkroeger/oniyi-http-plugin-credentials",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benkroeger/oniyi-http-plugin-credentials.git"
+  },
   "scripts": {
-    "prepublish": "gulp prepublish",
-    "test": "gulp"
+    "format": "prettier-eslint --write \"lib/**/*.js\" \"test/**/*.js\"",
+    "prelint": "npm run format",
+    "lint": "eslint --ignore-path .gitignore .",
+    "test": "ava --verbose",
+    "test:watch": "npm test -- --watch",
+    "coverage": "nyc npm test && nyc report --reporter=html"
+    },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benkroeger/oniyi-http-plugin-credentials/issues"
   },
-  "license": "MIT"
+  "directories": {
+    "test": "test"
+  }
 }
