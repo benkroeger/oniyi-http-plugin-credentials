@@ -36,12 +36,13 @@
     "url": "git+https://github.com/benkroeger/oniyi-http-plugin-credentials.git"
   },
   "scripts": {
-    "coverage": "nyc npm test && nyc report --reporter=html",
     "format": "prettier-eslint --write \"lib/**/*.js\" \"test/**/*.js\"",
     "prelint": "npm run format",
     "lint": "eslint --ignore-path .gitignore .",
-    "test": "ava --verbose"
-  },
+    "test": "ava --verbose",
+    "test:watch": "npm test -- --watch",
+    "coverage": "nyc npm test && nyc report --reporter=html"
+    },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/benkroeger/oniyi-http-plugin-credentials/issues"
