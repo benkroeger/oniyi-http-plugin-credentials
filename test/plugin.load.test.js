@@ -50,24 +50,6 @@ test.cb('noop when no "user" in request params', (t) => {
   });
 });
 
-test.cb('noop when phase hook handler is marked for skipping', (t) => {
-  const options = { providerName: 'oauth' };
-  const plugin = factory(options);
-  const ctxOptions = {
-    phasesToSkip: {
-      requestPhases: ['credentials'],
-    }
-  };
-  const ctx = { options: ctxOptions };
-  const requestPhaseHookHandler = plugin.onRequest[0];
-
-  requestPhaseHookHandler.handler(ctx, (err) => {
-    t.ifError(err);
-    t.is(ctx.options, ctxOptions);
-    t.end();
-  });
-});
-
 test.cb('fails when "user.credentialsMethodName" is not a function', (t) => {
   const options = { providerName: 'oauth', credentialsMethodName: 'does-not-exist' };
   const plugin = factory(options);
