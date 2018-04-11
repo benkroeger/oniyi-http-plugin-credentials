@@ -16,7 +16,7 @@ const OniyiHttpClient = require('oniyi-http-client');
 const oniyiHttpPluginCredentials = require('oniyi-http-plugin-credentials');
 
 const httpClientParams = {
-  requestPhases: ['credentials'], // indicates that we want phase hook handler with name 'credentials' should be run in request phase list
+  requestPhases: ['initial','credentials', 'final'],
 };
 
 const pluginOptions = {
@@ -26,10 +26,18 @@ const pluginOptions = {
   credentialsMethodName: 'getCredentialsForProvider', // name of the method on `user` object that resolves credentials for `providerName`
 };
 const plugin = oniyiHttpPluginCredentials(pluginOptions);
+const phaseMapOptions = {
+  requestPhaseMap: {
+    credentials: 'newCredentialsPhase',
+  },
+  responsePhaseMap: {
+    final: 'end',
+  },
+};
 
 const httpClient = OniyiHttpClient
-  .create(httpClientParams) // create custom http client with defined phase lists
-  .use(plugin);             // mount a plugin
+  .create(httpClientParams)       // create custom http client with defined phase lists
+  .use(plugin, phaseMapOptions);  // mount a plugin
 ```
 
 ## Plugin Options
