@@ -15,8 +15,9 @@ $ npm install --save oniyi-http-plugin-credentials
 const OniyiHttpClient = require('oniyi-http-client');
 const oniyiHttpPluginCredentials = require('oniyi-http-plugin-credentials');
 
-const clientOptions = {};
-const httpClient = new OniyiHttpClient(clientOptions);
+const httpClientParams = {
+  requestPhases: ['initial','credentials', 'final'],
+};
 
 const pluginOptions = {
   providerName: 'my-auth-provider', // Name of the provider that credentials should be resolved for
@@ -25,8 +26,18 @@ const pluginOptions = {
   credentialsMethodName: 'getCredentialsForProvider', // name of the method on `user` object that resolves credentials for `providerName`
 };
 const plugin = oniyiHttpPluginCredentials(pluginOptions);
+const phaseMapOptions = {
+  requestPhaseMap: {
+    credentials: 'newCredentialsPhase',
+  },
+  responsePhaseMap: {
+    final: 'end',
+  },
+};
 
-httpClient.use(plugin);
+const httpClient = OniyiHttpClient
+  .create(httpClientParams)       // create custom http client with defined phase lists
+  .use(plugin, phaseMapOptions);  // mount a plugin
 ```
 
 ## Plugin Options
@@ -40,23 +51,27 @@ available options are:
 
 ## How does it work?
 
-`plugin.load()` retrieves an object with parameters (origParams) that will later be used to make an http(s) request. From there, the following flow is applied:
+This plugin relies on logic implemented in [oniyi-http-client](https://npmjs.org/package/oniyi-http-client), which has extensive documentation on how phase lists work and what conventions must be followed when implementing a plugin.
+ 
+Basically, we have implemented a phase list hook handler which gets invoked in `request phase list` of http client.
+Once `credentials` hook handler gets invoked, it receives a `ctx` and `next` params. Once we pull `options` from the context object, the following flow is applied:
 
-copy `origParams` into `reqParams`. Depending on `options.removeUserProp`, the original prop named `options.userPropName` will be omitted or included.
-read prop named `options.userPropName` from `origParams` into `user`.
-If `user` can not be found, abort flow and invoke callback with `origParams`.
-If `user[options.credentialsMethodName]` is not a function, invoke callback with `Error`.
+copy `options` into `reqParams`. Depending on `pluginOptions.removeUserProp`, the original prop named `pluginOptions.userPropName` will be omitted or included.
+read prop named `pluginOptions.userPropName` from `options` into `user`.
+If `user` can not be found, abort flow and invoke `next` function so that next plugin in this phase list can do its operations. 
+If `user[pluginOptions.credentialsMethodName]` is not a function, invoke `next` with `Error`.
 
-Invoke `user[options.credentialsMethodName]` with `options.providerName` and `reqParams` as well as a callback function.
-Now `user[options.credentialsMethodName]` is supposed to resolve credentials for `user` and the authentication provider. This resolution should happen async and results be passed to our local callback (which takes `err` and `credentials` arguments).
+Invoke `user[pluginOptions.credentialsMethodName]` with `pluginOptions.providerName` and `reqParams` as well as a callback function.
+Now `user[pluginOptions.credentialsMethodName]` is supposed to resolve credentials for `user` and the authentication provider. This resolution should happen async and results be passed to our local callback (which takes `err` and `credentials` arguments).
 If an error occurs, plugin flow is aborted and `err` passed to callback.
-If `credentials` is falsy, plugin flow is also aborted and callback invoked with an according error.
+If `credentials` is falsy, plugin flow is also aborted and `next` gets invoked.
 
-At this point, we let `user[options.credentialsMethodName]` resolve credentials for the auth provider that this plugin instance is configured for – and no errors occurred.
+At this point, we let `user[pluginOptions.credentialsMethodName]` resolve credentials for the auth provider that this plugin instance is configured for – and no errors occurred.
 
 Now the plugin applies `credentials` to `reqParams`. For that, `credentials.type` is mapped against a list of supported credential types. If `credentials.type` is supported, that type specific implementation is invoked with `reqParams` and `credentials.payload`.
 Each credentials type expects a different layout of `credentials.payload`.
 
+Finally, we update the `ctx.options` object with latest `reqParamsWithCredentials` changes, and invoke `next` function.
 
 ## Credentials types
 

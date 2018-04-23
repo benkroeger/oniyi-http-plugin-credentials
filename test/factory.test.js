@@ -20,13 +20,33 @@ test('throws when options.providerName is not a string', (t) => {
   t.throws(() => factory(options), 'providerName must be a "String"');
 });
 
-test('returns object with `name` and `load` prop', (t) => {
+test('returns object with `name` and `onRequest` prop', (t) => {
   const options = { providerName: 'test-provider' };
   const plugin = factory(options);
 
   t.true(Object.prototype.hasOwnProperty.call(plugin, 'name'));
-  t.true(Object.prototype.hasOwnProperty.call(plugin, 'load'));
+  t.true(Object.prototype.hasOwnProperty.call(plugin, 'onRequest'));
   t.is(plugin.name, 'attach-credentials');
-  t.true(_.isFunction(plugin.load));
-  t.is(plugin.load.length, 3);
+  t.true(_.isArray(plugin.onRequest));
+
+  const requestPhaseHookHandler = plugin.onRequest[0];
+
+  t.true(Object.prototype.hasOwnProperty.call(requestPhaseHookHandler, 'phaseName'));
+  t.true(Object.prototype.hasOwnProperty.call(requestPhaseHookHandler, 'handler'));
+  t.is(requestPhaseHookHandler.phaseName, 'credentials');
+  t.true(_.isFunction(requestPhaseHookHandler.handler));
+  t.is(requestPhaseHookHandler.handler.length, 2);
+});
+
+test('onRequest returns `phaseName` and `handler` prop', (t) => {
+  const options = { providerName: 'test-provider' };
+  const plugin = factory(options);
+
+  const requestPhaseHookHandler = plugin.onRequest[0];
+
+  t.true(Object.prototype.hasOwnProperty.call(requestPhaseHookHandler, 'phaseName'));
+  t.true(Object.prototype.hasOwnProperty.call(requestPhaseHookHandler, 'handler'));
+  t.is(requestPhaseHookHandler.phaseName, 'credentials');
+  t.true(_.isFunction(requestPhaseHookHandler.handler));
+  t.is(requestPhaseHookHandler.handler.length, 2);
 });
